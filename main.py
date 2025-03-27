@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 from crewai import Agent, Task, Crew
 from dotenv import load_dotenv
+from starlette.middleware.cors import CORSMiddleware
 
 from map_json import generate_rest_assured_code, generate_default_api_specs
 
@@ -17,6 +18,15 @@ app = FastAPI(
     title="User Story Generator API",
     description="API for generating user stories from business requirements using Crew AI",
     version="1.0.0"
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For production, specify exact origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Ensure OpenAI API key is set
